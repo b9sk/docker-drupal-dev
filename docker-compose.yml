@@ -10,9 +10,10 @@ services:
       - "45080:80"
   mysql:
     container_name: mysql
-    image: mysql:5.6
+    image: mysql:5.7
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=drupal
       - MYSQL_USER=drupal
       - MYSQL_PASSWORD=drupal
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci

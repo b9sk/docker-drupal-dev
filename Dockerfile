@@ -1,6 +1,6 @@
-# Drupal 8 development codebase ENV #
+# Drupal 7 development ENV
 
-FROM drupal:8-apache
+FROM drupal:7-apache
 WORKDIR /var/www/html
 
 # Install Composer

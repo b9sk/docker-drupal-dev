@@ -1,9 +1,9 @@
-# docker-drupal8-dev
-Development environment for Drupal 8 with Drush and Composer.
+# docker-drupal7-dev
+Development environment for Drupal 7 with Drush and Composer.
 
 * Clone the repo
 * Get inside `docker-drupal8-dev/`
-* Create `app/` dir and place there the lastest release [of Drupal 8](https://www.drupal.org/project/drupal)
+* Create `app/` dir and place there the lastest release [of Drupal 7](https://www.drupal.org/project/drupal)
 * Give full access to `www-data` user inside `drupal_dev` container. For example run:
   + `find ./ -type f -print | xargs chmod 666`
   + `find ./ -type d -print | xargs chmod 777`

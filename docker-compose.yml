@@ -8,8 +8,11 @@ services:
       - ./app:/var/www/html
     ports:
       - "45080:80"
-  mysql:
-    container_name: mysql
+      - "45901:9001"
+    environment:
+      - XDEBUG_IDE_KEY=dockerComposeSecretKey
+  mysql_dev:
+    container_name: mysql_dev
     image: mysql:5.7
     environment:
       - MYSQL_ROOT_PASSWORD=root

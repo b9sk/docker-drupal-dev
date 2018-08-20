@@ -6,6 +6,7 @@ services:
     image: local_drupal_dev
     volumes:
       - ./app:/var/www/html
+      - ./drush-dump:/root/drush-backups
     ports:
       - "45080:80"
       - "45900:9000"

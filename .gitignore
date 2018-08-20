@@ -1,2 +1,3 @@
 app/*
 !app/.gt
+drush-dump/*.tar

@@ -8,9 +8,7 @@ services:
       - ./app:/var/www/html
     ports:
       - "45080:80"
-      - "45901:9001"
-    environment:
-      - XDEBUG_IDE_KEY=dockerComposeSecretKey
+      - "45900:9000"
   mysql_dev:
     container_name: mysql_dev
     image: mysql:5.7

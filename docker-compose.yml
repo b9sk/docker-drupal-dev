@@ -2,8 +2,11 @@ version: '3'
 services:
   drupal_dev:
     container_name: drupal_dev
-    build: .
-    image: local_drupal_dev
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    #image: local_drupal_dev
+    #what is img name will be here?
     volumes:
       - ./app:/var/www/html
       - ./drush-dump:/root/drush-backups

@@ -5,6 +5,7 @@ Development environment for Drupal 7 with Drush and Composer.
 * xDebug
 * ssh 402222
 
+## How to
 * Clone the repo
 * Get inside `docker-drupal-dev/`
 * Create `app/` dir and place there the lastest release [of Drupal 7](https://www.drupal.org/project/drupal)

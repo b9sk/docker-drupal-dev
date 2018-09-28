@@ -1,21 +1,21 @@
 version: '3'
 services:
   drupal_dev:
-    container_name: drupal_dev
+    container_name: drupal-dev
     build:
       context: ./
       dockerfile: Dockerfile.dev
-    #image: local_drupal_dev
-    #what is img name will be here?
     volumes:
       - ./app:/var/www/html
-      - ./drush-dump:/root/drush-backups
-      - ./scripts:/scripts
+      - ./drush-backup:/root/drush-backup
+      - ./mysql-dump:/root/mysql-dump
+      - ./scripts:/root/scripts
     ports:
-      - "45080:80"
-      - "45900:9000"
-  mysql_dev:
-    container_name: mysql_dev
+      - "40080:80"
+      - "40900:9000"
+      - "40222:22"
+  mysql:
+    container_name: mysql-dev
     image: mysql:5.7
     environment:
       - MYSQL_ROOT_PASSWORD=root

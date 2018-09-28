@@ -35,11 +35,10 @@ xdebug.idekey=mySecretKey666\n\
 " >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 # NOTICE: Xdebug does not work when docker host is deployed on remote server. Localhost was not tested yet!
 
-# (possible useless) Give full access to www-data for mounted volumes and new files
-RUN echo "umask 000" >> /root/.bashrc
+COPY drush-backup/ /root/drush-backup/
+RUN chmod +x /root/drush-backup/make-backup.sh
 
-COPY drush-dump/ /root/drush-backups/
-RUN chmod +x /root/drush-backups/make-backup.sh
+RUN chmod -R 777 /var/www/html
 
-EXPOSE 80 9000 
+EXPOSE 22 80 9000
 

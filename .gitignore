@@ -1,3 +1,12 @@
 app/*
 !app/.gt
-drush-dump/*.tar
+
+drush-backup/*.tar
+drush-backup/*.tar.gz
+drush-backup/*.zip
+
+mysql-dump/*.tar
+mysql-dump/*.tar.gz
+mysql-dump/*.zip
+mysql-dump/*.sql
+!mysql-dump/.gt

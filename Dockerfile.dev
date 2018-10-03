@@ -36,13 +36,15 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 # Add xdebug.ini settings
-RUN printf "\nxdebug.remote_enable=1\n\
-xdebug.remote_autostart=1\n\
+RUN printf "\n\
+xdebug.remote_enable=1\n\
+xdebug.remote_autostart=0\n\
 xdebug.remote_handler=dbgp\n\
 xdebug.remote_mode=req\n\
-xdebug.remote_host=host.docker.internal\n\
+xdebug.remote_host=192.168.0.20\n\
 xdebug.remote_port=9000\n\
 xdebug.idekey=mySecretKey666\n\
+xdebug.remote_log=/var/www/html/xdebug.log\n\
 " >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 # NOTICE: Xdebug does not work when docker host is deployed on remote server. Localhost was not tested yet!
 
@@ -56,5 +58,7 @@ RUN echo "umask 000" >> /root/.bashrc
 
 EXPOSE 22 80 9000
 
-CMD ["/usr/sbin/sshd", "-D"]
+# Run sshd and apache2 services at once
+COPY ./scripts /root/scripts
+CMD ["/root/scripts/autostart.sh"]
 

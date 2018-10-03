@@ -9,7 +9,7 @@ services:
       - ./app:/var/www/html
       - ./drush-backup:/root/drush-backup
       - ./mysql-dump:/root/mysql-dump
-      - ./scripts:/root/scripts
+      #- ./scripts:/root/scripts
       #- ./ssh:/root/.ssh
     ports:
       - "30080:80"

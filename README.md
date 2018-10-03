@@ -2,28 +2,31 @@
 Development environment for Drupal 7 with Drush and Composer.
 
 
-## todo
-* xDebug (need to test)
-* ~~ssh~~
-
-
 ## How to
 
 ### Run the services
 * Clone the repo
 * Get inside `docker-drupal-dev/`
 * Create `app/` dir and place there the lastest release [of Drupal 7](https://www.drupal.org/project/drupal)
-* Give full access to `www-data` user inside `drupal_dev` container. For example run:
-  + `find ./ -type f -print | xargs chmod 666`
-  + `find ./ -type d -print | xargs chmod 777`
+* Setup Xdedug (see below)
 * Go to parent folder and run `docker-compose -f ./docker-compose.dev.yml up -d`
-* Open in a browser url `http:://docker_host_machine_ip:40080`
-* Install Drupal manually OR by using the script: `~/scripts/install-drupal.sh` (run this from `drupal-dev` container)
+* Open in a browser url `http:://docker_host_machine_ip:30080`
+* Install Drupal manually OR by use the script: `~/scripts/install-drupal.sh` (run this from `drupal-dev` container)
 * (Optional) Convert your DB to utf8mb4: [Database 4 byte UTF-8 support](https://www.drupal.org/project/utf8mb4_convert)
 
+### Setup Xdedug
+* Find `xdebug.remote_host=` and replace an IP by `xdebug.remote_host=your_host_ip`
+* Set up DBGp Proxy:
+* + IDE Key: `mySecretKey666`
+* + Host: `your_host_ip`
+* + Port: `39000`
+
 ### Get SSH access
-* Run `ssh -i ssh/php-container -p 30022 root@your_docker_host_ip` from the project folder
+* Run `ssh -i ssh/php-container -p 30022 root@your_docker_host_ip` from the project folder  
 **Warning!** This approach may have security issues. Run with caution.
+
+### Port forward
+* `ssh -vR 9000:localhost:9000 -i ssh/php-container -p 30022 root@your_docker_host_ip`
 
 
 ## Notes
@@ -37,4 +40,3 @@ Development environment for Drupal 7 with Drush and Composer.
 * ./app:/var/www/html - drupal codebase
 * ./drush-backup:/root/drush-backup - backups maked by ./drush-backup/make-backup.sh
 * ./mysql-dump:/root/mysql-dump - your \*.sql files
-* ./scripts:/root/scripts

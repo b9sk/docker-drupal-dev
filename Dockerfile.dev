@@ -10,8 +10,19 @@ RUN curl https://github.com/drush-ops/drush/releases/download/8.1.17/drush.phar 
     chmod +x /usr/local/bin/drush
 
 # Install mysql client (a Drush dependency)
-RUN apt-get update -q && apt-get install -yq mysql-client
-RUN apt-get install -yq vim iputils-ping
+RUN apt-get update -q && apt-get install -yqq mysql-client
+
+# Install utils
+RUN apt-get install -yqqq vim iputils-ping
+
+# Install SSH server (todo: join RUNs after a test)
+RUN apt-get install -yqqq openssh-server \
+  && mkdir /run/sshd \
+  && chmod -R 700 /run/sshd/
+COPY ./ssh/php-container.pub /root/php-container.pub
+RUN mkdir -p /root/.ssh \
+  && cat /root/php-container.pub >> /root/.ssh/authorized_keys \
+  && rm -rf /root/php-container.pub
 
 # Xdebug DBGp-proxy
 #RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -yq install python-pip
@@ -29,7 +40,7 @@ RUN printf "\nxdebug.remote_enable=1\n\
 xdebug.remote_autostart=1\n\
 xdebug.remote_handler=dbgp\n\
 xdebug.remote_mode=req\n\
-xdebug.remote_host=127.0.0.1\n\
+xdebug.remote_host=host.docker.internal\n\
 xdebug.remote_port=9000\n\
 xdebug.idekey=mySecretKey666\n\
 " >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
@@ -40,8 +51,10 @@ COPY drush-backup/ /root/drush-backup/
 RUN chmod +x /root/drush-backup/make-backup.sh
 
 # полный доступ для всех новых файлов, соданных позже
-RUN echo "umask 000" >> /root/.bashrc
 RUN chmod -R 777 /var/www/html
+RUN echo "umask 000" >> /root/.bashrc
 
 EXPOSE 22 80 9000
+
+CMD ["/usr/sbin/sshd", "-D"]
 

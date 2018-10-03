@@ -10,10 +10,11 @@ services:
       - ./drush-backup:/root/drush-backup
       - ./mysql-dump:/root/mysql-dump
       - ./scripts:/root/scripts
+      #- ./ssh:/root/.ssh
     ports:
-      - "40080:80"
-      - "40900:9000"
-      - "40222:22"
+      - "30080:80"
+      - "39000:9000"
+      - "30022:22"
   mysql:
     container_name: mysql-dev
     image: mysql:5.7

@@ -15,10 +15,10 @@ Development environment for Drupal 7 with Drush and Composer.
 * (Optional) Convert your DB to utf8mb4: [Database 4 byte UTF-8 support](https://www.drupal.org/project/utf8mb4_convert)
 
 ### Setup Xdedug
-* Find `xdebug.remote_host=` and replace an IP by `xdebug.remote_host=your_host_ip`
+* Find `xdebug.remote_host=` and replace an IP by `xdebug.remote_host=your_docker_host_ip`
 * Set up DBGp Proxy:
 * + IDE Key: `mySecretKey666`
-* + Host: `your_host_ip`
+* + Host: `your_docker_host_ip`
 * + Port: `39000`
 
 ### Get SSH access

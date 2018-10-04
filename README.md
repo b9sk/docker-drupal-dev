@@ -1,5 +1,5 @@
 # docker-drupal7-dev
-Development environment for Drupal 7 with Drush and Composer.
+Development environment for Drupal 7 with Xdebug, Drush and Composer.
 
 
 ## How to
@@ -25,7 +25,7 @@ Development environment for Drupal 7 with Drush and Composer.
 * Run `ssh -i ssh/php-container -p 30022 root@your_docker_host_ip` from the project folder  
 **Warning!** This approach may have security issues. Run with caution.
 
-### Port forward
+### Port forward (if you app does not support DBGp Proxy)
 * `ssh -vR 9000:localhost:9000 -i ssh/php-container -p 30022 root@your_docker_host_ip`
 
 

@@ -1,7 +1,7 @@
 version: '3'
 services:
-  drupal_dev:
-    container_name: drupal-dev
+  drupal-dev:
+    #container_name: drupal-dev
     build:
       context: ./
       dockerfile: Dockerfile.dev
@@ -16,7 +16,7 @@ services:
       - "39000:9000"
       - "30022:22"
   mysql:
-    container_name: mysql-dev
+    #container_name: mysql-dev
     image: mysql:5.7
     environment:
       - MYSQL_ROOT_PASSWORD=root

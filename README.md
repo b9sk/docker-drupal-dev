@@ -9,7 +9,7 @@ Development environment for Drupal 7 with Xdebug, Drush and Composer.
 * Get inside `docker-drupal-dev/`
 * Create `app/` dir and place there the lastest release [of Drupal 7](https://www.drupal.org/project/drupal)
 * Setup Xdedug (see below)
-* Go to parent folder and run `docker-compose -f ./docker-compose.dev.yml up -d`
+* Go to parent folder and run `docker-compose up -d`
 * Open in a browser url `http:://docker_host_machine_ip:30080`
 * Install Drupal manually OR by use the script: `~/scripts/install-drupal.sh` (run this from `drupal-dev` container)
 * (Optional) Convert your DB to utf8mb4: [Database 4 byte UTF-8 support](https://www.drupal.org/project/utf8mb4_convert)
@@ -22,10 +22,10 @@ Development environment for Drupal 7 with Xdebug, Drush and Composer.
 * + Port: `39000`
 
 ### Get SSH access
-* Run `ssh -i ssh/php-container -p 30022 root@your_docker_host_ip` from the project folder  
-**Warning!** This approach may have security issues. Run with caution.
+* Run `ssh -i ssh/php-container -p 30022 root@your_docker_host_ip` from the Docker host project folder  
+**Warning: This approach may have security issues. Run with caution.** If you do not work on a localhost it would be better to create another keys.
 
-### Port forward (if you app does not support DBGp Proxy)
+### Xdebug Port Forward (if your code editor does not support DBGp Proxy)
 * `ssh -vR 9000:localhost:9000 -i ssh/php-container -p 30022 root@your_docker_host_ip`
 
 
@@ -36,7 +36,9 @@ Development environment for Drupal 7 with Xdebug, Drush and Composer.
 * [Database 4 byte UTF-8 support](https://www.drupal.org/project/utf8mb4_convert)
 
 
-## Volumes structure
-* ./app:/var/www/html - drupal codebase
-* ./drush-backup:/root/drush-backup - backups maked by ./drush-backup/make-backup.sh
-* ./mysql-dump:/root/mysql-dump - your \*.sql files
+## Additional scripts 
+**All the scripts must run from `drupal-dev` container.**
+* `./drush-backup/make-backup.sh` - make a backup tar through Drush
+* `./mysql-dump/`
+* + `backup.sh`|`restore.sh` - backup|restore mysql dump (file.sql) 
+* `./scripts/install-drupal.sh` - fast install Drupal 7 through Drush (you have to download drupal7 code in /var/www/html first)

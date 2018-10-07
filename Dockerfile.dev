@@ -9,11 +9,8 @@ RUN curl -sS https://getcomposer.org/installer | php && \
 RUN curl https://github.com/drush-ops/drush/releases/download/8.1.17/drush.phar -L -o /usr/local/bin/drush && \
     chmod +x /usr/local/bin/drush
 
-# Install mysql client (a Drush dependency)
-RUN apt-get update -q && apt-get install -yqq mysql-client
-
-# Install utils
-RUN apt-get install -yqqq vim iputils-ping
+# Install utils and mysql client (a Drush dependency)
+RUN apt-get update -q && apt-get install -yqq mysql-client git vim iputils-ping
 
 # Install SSH server (todo: join RUNs after a test)
 RUN apt-get install -yqqq openssh-server \
@@ -24,12 +21,7 @@ RUN mkdir -p /root/.ssh \
   && cat /root/php-container.pub >> /root/.ssh/authorized_keys \
   && rm -rf /root/php-container.pub
 
-# Xdebug DBGp-proxy
-#RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -yq install python-pip
-#RUN pip2 install komodo-python-dbgp
-
 # Cleaning up local apt repository
-#RUN apt-get -qy autoremove && DEBIAN_FRONTEND=noninteractive apt-get -yq clean
 RUN rm -rf /var/lib/apt/lists/*
 
 # Install xdebug
@@ -46,19 +38,16 @@ xdebug.remote_port=9000\n\
 xdebug.idekey=mySecretKey666\n\
 xdebug.remote_log=/var/www/html/xdebug.log\n\
 " >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-# NOTICE: Xdebug does not work when docker host is deployed on remote server. Localhost was not tested yet!
 
-# нужно убедиться, что этот скрипт исполняемый, поэтому вот так
 COPY drush-backup/ /root/drush-backup/
 RUN chmod +x /root/drush-backup/make-backup.sh
 
-# полный доступ для всех новых файлов, соданных позже
-RUN chmod -R 777 /var/www/html
-RUN echo "umask 000" >> /root/.bashrc
+# Full access for www-data
+RUN chmod -R 777 /var/www/html; echo "umask 000" >> /root/.bashrc
 
 EXPOSE 22 80 9000
 
-# Run sshd and apache2 services at once
 COPY ./scripts /root/scripts
+# Run sshd and apache2 services at once
 CMD ["/root/scripts/autostart.sh"]
 

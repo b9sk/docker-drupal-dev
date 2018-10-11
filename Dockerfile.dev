@@ -36,7 +36,10 @@ xdebug.remote_mode=req\n\
 xdebug.remote_host=192.168.0.20\n\
 xdebug.remote_port=9000\n\
 xdebug.idekey=mySecretKey666\n\
-xdebug.remote_log=/var/www/html/xdebug.log\n\
+xdebug.remote_log=/var/www/html/xdebug.log\n\n\
+xdebug.var_display_max_depth = -1\n\
+xdebug.var_display_max_children = -1\n\
+xdebug.var_display_max_data = -1\n\
 " >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 COPY drush-backup/ /root/drush-backup/

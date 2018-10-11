@@ -1,6 +1,7 @@
 # docker-drupal7-dev
 Development environment for Drupal 7 with Xdebug, Drush and Composer.
 
+**For now it works ONLY IN LOCAL HOST MASHINE when docker host machine equals your localhost**
 
 ## How to
 

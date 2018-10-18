@@ -5,6 +5,9 @@ Development environment for Drupal 7 with Xdebug, Drush and Composer.
 
 ## How to
 
+### Before you start
+Check out `mysql.env` file. Probably you want to change default values.
+
 ### Run the services
 * Clone the repo
 * Get inside `docker-drupal-dev/`

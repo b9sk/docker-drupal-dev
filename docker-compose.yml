@@ -1,7 +1,6 @@
 version: '3'
 services:
   drupal-dev:
-    #container_name: drupal-dev
     build:
       context: ./
       dockerfile: Dockerfile.dev
@@ -9,18 +8,12 @@ services:
       - ./app:/var/www/html
       - ./drush-backup:/root/drush-backup
       - ./mysql-dump:/root/mysql-dump
-      #- ./scripts:/root/scripts
-      #- ./ssh:/root/.ssh
     ports:
       - "30080:80"
       - "39000:9000"
       - "30022:22"
   mysql:
-    #container_name: mysql-dev
+    env_file:
+      - mysql.env
     image: mysql:5.7
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=drupal
-      - MYSQL_USER=drupal
-      - MYSQL_PASSWORD=drupal
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --max_allowed_packet=16M

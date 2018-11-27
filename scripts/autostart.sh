@@ -1,5 +1,5 @@
 #!/bin/bash
-# create|clear xdebug.log
+# create|clear xdebug.log on container start
 echo "" | tee /var/www/html/xdebug.log
 
 apache2-foreground &

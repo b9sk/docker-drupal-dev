@@ -21,26 +21,31 @@ RUN mkdir -p /root/.ssh \
   && cat /root/php-container.pub >> /root/.ssh/authorized_keys \
   && rm -rf /root/php-container.pub
 
-# Cleaning up local apt repository
-RUN rm -rf /var/lib/apt/lists/*
-
 # Install xdebug
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 # Add xdebug.ini settings
 RUN printf "\n\
 xdebug.remote_enable=1\n\
-xdebug.remote_autostart=0\n\
-xdebug.remote_handler=dbgp\n\
-xdebug.remote_mode=req\n\
-xdebug.remote_host=192.168.0.20\n\
-xdebug.remote_port=9000\n\
+xdebug.remote_host=127.0.0.1\n\
 xdebug.idekey=mySecretKey666\n\
+;xdebug.remote_autostart=0\n\
+;xdebug.remote_handler=dbgp\n\
+;xdebug.remote_mode=req\n\
+;xdebug.remote_port=9000\n\
 xdebug.remote_log=/var/www/html/xdebug.log\n\n\
 xdebug.var_display_max_depth = -1\n\
 xdebug.var_display_max_children = -1\n\
 xdebug.var_display_max_data = -1\n\
 " >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+# Install DBGp proxy (again)
+RUN DEBIAN_FRONTEND=noninteractive apt-get -yqq install python-pip
+RUN pip2 install komodo-python-dbgp
+
+# Cleaning up local apt repository
+RUN rm -rf /var/lib/apt/lists/*
+
 
 COPY drush-backup/ /root/drush-backup/
 RUN chmod +x /root/drush-backup/make-backup.sh
@@ -48,9 +53,8 @@ RUN chmod +x /root/drush-backup/make-backup.sh
 # Full access for www-data
 RUN chmod -R 777 /var/www/html; echo "umask 000" >> /root/.bashrc
 
-EXPOSE 22 80 9000
+EXPOSE 22 80 9001
 
 COPY ./scripts /root/scripts
 # Run sshd and apache2 services at once
 CMD ["/root/scripts/autostart.sh"]
-

@@ -9,9 +9,9 @@ services:
       - ./drush-backup:/root/drush-backup
       - ./mysql-dump:/root/mysql-dump
     ports:
-      - "30080:80"
-      - "39000:9000"
       - "30022:22"
+      - "30080:80"
+      - "39001:9001"
   mysql:
     env_file:
       - mysql.env

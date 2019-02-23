@@ -10,7 +10,7 @@ RUN curl https://github.com/drush-ops/drush/releases/download/8.1.17/drush.phar 
     chmod +x /usr/local/bin/drush
 
 # Install utils and mysql client (a Drush dependency)
-RUN apt-get update -q && apt-get install -yqq mysql-client git vim iputils-ping
+RUN apt-get update -q && apt-get install -yqq mysql-client git vim iputils-ping iproute2
 
 # Install SSH server (todo: join RUNs after a test)
 RUN apt-get install -yqqq openssh-server \
@@ -27,7 +27,7 @@ RUN pecl install xdebug && docker-php-ext-enable xdebug
 # Add xdebug.ini settings
 RUN printf "\n\
 xdebug.remote_enable=1\n\
-xdebug.remote_host=127.0.0.1\n\
+xdebug.remote_host=host.docker.internal\n\
 xdebug.idekey=mySecretKey666\n\
 ;xdebug.remote_autostart=0\n\
 ;xdebug.remote_handler=dbgp\n\
@@ -46,14 +46,16 @@ RUN pip2 install komodo-python-dbgp
 # Cleaning up local apt repository
 RUN rm -rf /var/lib/apt/lists/*
 
+# Detecting Host IP and assign it to docker.host.internal (Xdebug needs this)
+RUN echo -e "`/sbin/ip route|awk '/default/ { print $3 }'`\tdocker.host.internal" >> /etc/hosts
 
 COPY drush-backup/ /root/drush-backup/
 RUN chmod +x /root/drush-backup/make-backup.sh
 
-# Full access for www-data
+# Full access for any container user
 RUN chmod -R 777 /var/www/html; echo "umask 000" >> /root/.bashrc
 
-EXPOSE 22 80 9001
+EXPOSE 22 80 9000 9001
 
 COPY ./scripts /root/scripts
 # Run sshd and apache2 services at once

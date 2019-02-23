@@ -1,7 +1,17 @@
 # docker-drupal7-dev
 Development environment for Drupal 7 with Xdebug, Drush and Composer.
 
-**For now it works ONLY IN LOCAL HOST MASHINE when docker host machine equals your localhost**
+**For now it works ONLY IN LOCAL HOST MACHINE when docker host machine equals your localhost**
+
+
+## dev Notes
+Need to run the command when `drupal-dev` container has been *run first time*:
+```bash
+echo -e "$(/sbin/ip route|awk '/default/ { print $3 }')\tdocker.host.internal" | sudo tee -a /etc/hosts > /dev/null
+```
+
+Packages `iputils-ping` and `iproute2` are include `ping` and `/sbin/ip` apps respectively.
+
 
 ## How to
 
@@ -40,9 +50,9 @@ Check out `mysql.env` file. Probably you want to change default values.
 * [Database 4 byte UTF-8 support](https://www.drupal.org/project/utf8mb4_convert)
 
 
-## Additional scripts 
+## Additional scripts
 **All the scripts must run from `drupal-dev` container.**
 * `./drush-backup/make-backup.sh` - make a backup tar through Drush
 * `./mysql-dump/`
-* + `backup.sh`|`restore.sh` - backup|restore mysql dump (file.sql) 
+* + `backup.sh`|`restore.sh` - backup|restore mysql dump (file.sql)
 * `./scripts/install-drupal.sh` - fast install Drupal 7 through Drush (you have to download drupal7 code in /var/www/html first)

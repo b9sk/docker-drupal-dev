@@ -1,0 +1,81 @@
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+
+server {
+	listen 80;
+	listen [::]:80;
+
+	server_name accrimea.ru;
+	return 301 https://accrimea.ru$request_uri;
+#	port_in_redirect off;
+
+#	location / {
+#		proxy_pass http://localhost:81;
+#
+#		# tell a user about what server we use
+#		add_header X-Stage prod;
+#
+#		include /etc/nginx/proxy_params;
+#	}
+
+
+
+
+}
+
+server {
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/accrimea.ru/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/accrimea.ru/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+    
+    
+    
+    server_name accrimea.ru;
+    
+	location / {
+		proxy_pass http://localhost:81;
+
+		# tell a user about what server we use
+		add_header X-Stage prod;
+		
+		include /etc/nginx/proxy_params;
+	}
+}
+
+
+server {
+	listen 80;
+	listen [::]:80;
+	
+    server_name chimas.ru *.chimas.ru ackrym.ru *.ackrym.ru xn--80augp2a6a.xn--p1ai *.xn--80augp2a6a.xn--p1ai;
+    return 301 http://accrimea.ru$request_uri;
+}
+
+#server {
+	#listen 443 ssl; # managed by Certbot
+	
+	#server_name chimas.ru *.chimas.ru ackrym.ru *.ackrym.ru xn--80augp2a6a.xn--p1ai *.xn--80augp2a6a.xn--p1ai;
+	# didn't work with out a ssl cert
+	#return 301 https://accrimea.ru$request_uri;
+#}
+
+# Virtual Host configuration for example.com
+#
+# You can move that to a different file under sites-available/ and symlink that
+# to sites-enabled/ to enable it.
+#
+#server {
+#	listen 80;
+#	listen [::]:80;
+#
+#	server_name example.com;
+#
+#	root /var/www/example.com;
+#	index index.html;
+#
+#	location / {
+#		try_files $uri $uri/ =404;
+#	}
+#}

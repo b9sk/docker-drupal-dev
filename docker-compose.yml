@@ -1,0 +1,51 @@
+version: '3'
+services:
+  drupal-dev:
+    restart: always
+    container_name: drupal-dev
+    hostname: drupal-dev
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./app-dev:/var/www/html
+      - ./root-dev:/root
+      - ./scripts:/scripts
+      - ./share:/share
+    ports:
+      - "2222:22"
+      - "8080:80"
+  mysql-dev:
+    restart: always
+    container_name: mysql-dev
+    hostname: mysql-dev
+    env_file:
+      - mysql.env
+    image: mysql:5.7
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --max_allowed_packet=16M
+  drupal-prod:
+    restart: always
+    container_name: drupal-prod
+    hostname: drupal-prod
+    build:
+      context: ./
+      dockerfile: Dockerfile.prod
+    volumes:
+      - ./app-prod:/var/www/html
+      - ./root-prod:/root
+      - ./share:/share
+    ports:
+      - "81:80"
+  mysql-prod:
+    restart: always
+    container_name: mysql-prod
+    hostname: mysql-prod
+    env_file:
+      - mysql.env
+    image: mysql:5.7
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --max_allowed_packet=16M
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8081:8080"

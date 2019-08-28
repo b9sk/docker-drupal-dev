@@ -5,8 +5,6 @@
 Development environment for Drupal 7 with Xdebug, Drush and Composer.
 The environment fits only if you use one website per a host.
 
-**For now it works ONLY IN LOCAL HOST MASHINE when docker host machine equals your localhost**
-
 ## How to
 
 ### Before you start
@@ -30,7 +28,7 @@ Check out `mysql.env` file. Probably you want to change default values.
 * + Port: `39000`
 
 ### Get SSH access
-* Run `ssh -i ssh/php-container -p 30022 root@your_docker_host_ip` from the Docker host project folder  
+* Run `ssh -i ssh/php-container -p 2222 root@your_docker_host_ip` from the Docker host project folder  
 **Warning: This approach may have security issues. Run with caution.** If you do not work on a localhost it would be better to create another keys.
 
 ### Xdebug Port Forward (if your code editor does not support DBGp Proxy)

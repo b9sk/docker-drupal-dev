@@ -1,4 +1,5 @@
 #!/bin/bash
+# does not work yet
 function dce () {
   if [[ -z $1 ]]; then
     echo "You have to specify a service name as first argument";

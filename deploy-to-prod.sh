@@ -4,6 +4,10 @@ DIR=$(dirname "${BASH_SOURCE[0]}")
 cd $DIR
 DBPASS=$(grep MYSQL_PASSWORD mysql.env | awk -F '=' '{print $2}')
 
+
+echo -e "dev -> prod: $(date +%Y-%m-%d\ %H:%M)\n$(cat deployment.log)" > deployment.log
+
+
 # [dev] pre deploy
 docker-compose exec drupal-dev bash -c "drush cc all"
 

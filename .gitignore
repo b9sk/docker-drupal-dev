@@ -31,3 +31,4 @@ root-prod/.bash*
 root-dev/.vim*
 root-prod/.vim*
 
+deployment.log

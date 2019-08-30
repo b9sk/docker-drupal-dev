@@ -13,6 +13,9 @@ fi
 echo "Processing..."
 
 
+echo -e "prod -> dev: $(date +%Y-%m-%d\ %H:%M)\n$(cat deployment.log)" > deployment.log
+
+
 # init
 DIR=$(dirname "${BASH_SOURCE[0]}")
 cd $DIR

@@ -6,9 +6,13 @@ DBPASS=$(grep MYSQL_PASSWORD mysql.env | awk -F '=' '{print $2}')
 REMOTE_HOST=$(grep REMOTE_HOST my.env | awk -F '=' '{print $2}')
 
 
+echo -e "remote dev -> local dev: $(date +%Y-%m-%d\ %H:%M)\n$(cat deployment.log)" > deployment.log
+
+
 echo "INFO: rsync over ssh: remote dev to local"
-rsync -avh -e "ssh -i ./ssh/dev -p 2222" root@${REMOTE_HOST}:/var/www/html/ app-dev/ --exclude \.git/
+rsync -avh -e "ssh -i ./ssh/dev -p 2222" root@${REMOTE_HOST}:/var/www/html/ app-dev/ --exclude \.git/ --exclude sites/all/themes/blanked/node_modules/
 sleep 3
+# ^ workaround. otherwise ssh gets "Connection refused
 
 
 rm share/dev-to-local-db.sql.gz
@@ -16,7 +20,7 @@ rm share/dev-to-local-db.sql
 
 
 echo "INFO: executing remote dev mysqldump"
-ssh -i ./ssh/dev -p 2222 root@${REMOTE_HOST} "mysqldump -h mysql-dev -udrupal -p${DBPASS} drupal  | gzip" > share/dev-to-local-db.sql.gz;
+ssh -i ./ssh/dev -p 2222 root@${REMOTE_HOST} "mysqldump -h mysql-dev -udrupal -p${DBPASS} drupal | gzip" > share/dev-to-local-db.sql.gz;
 
 
 # check if previous command was finished properly
